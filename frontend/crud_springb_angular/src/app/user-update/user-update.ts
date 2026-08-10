@@ -47,7 +47,7 @@ export class UserUpdate implements OnInit {
           first_name: user.firstname,
           last_name: user.lastname,
           email: user.email,
-          password: user.password,
+          password: '',
           profileImage: user.profileImage
         });
         // 👇 show existing image

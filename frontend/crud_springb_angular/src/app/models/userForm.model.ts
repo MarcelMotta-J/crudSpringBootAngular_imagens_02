@@ -1,10 +1,8 @@
-export interface User {
-  id: number;
+export interface UserForm {
   firstname: string;
   lastname: string;
   email: string;
+  password: string;
   active: boolean | null;
-  profileImage: string | null;
+  profileImage: File | null;
 }
-
-
