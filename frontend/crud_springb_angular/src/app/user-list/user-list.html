@@ -1,0 +1,54 @@
+<p>user-list </p>
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-item-center mb-3">
+        <h2 class="mb-0">User List</h2>
+        <a routerLink="/users/create" class="btn btn-primary">Add User</a>
+    </div>
+
+    @if(users.length > 0){
+    <table class="table table-bordered table-hover"  >
+        <thead class="table-light">
+            <tr>
+                <th>Id</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Password</th>
+                
+                <th>Image</th>                
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (user of users; track user){
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.firstname }}</td>
+                <td>{{ user.lastname }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.password }}</td>
+               
+                <td>
+                    
+                    @if(user.profileImage){ 
+                    <img  [src]="'http://localhost:8081/uploads/' + user.profileImage"  width="100" height="100" />
+                    
+                    }
+                </td>
+                <td>
+                    <button (click)="editUser(user.id)" class="btn btn-success btn-sm me-2">Edit</button>
+                    <button (click)="deleteUser(user.id)" class="btn btn-danger btn-sm">Delete</button>
+                </td>
+            </tr>
+            }
+        </tbody> 
+      
+    </table>
+    }
+
+
+</div>
+
+
+

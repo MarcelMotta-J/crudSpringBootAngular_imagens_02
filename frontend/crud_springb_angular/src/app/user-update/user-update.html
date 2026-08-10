@@ -1,0 +1,45 @@
+<p>user-update</p>
+
+
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-body text-success">
+            <h2 class="card-title mb-4 text-primary">Edit User</h2>
+            <form [formGroup]="userForm" (ngSubmit)="updateUser()" enctype="multipart/form-data">
+
+                <div class="mb-3">
+                    <label for="first_name" class="for-label">First Name</label>
+                    <input type="text" class="form-control" id="first_name" formControlName="first_name">
+                </div>
+
+                <div class="mb-3">
+                    <label for="last_name" class="for-label">Last Name</label>
+                    <input type="text" class="form-control" id="last_name" formControlName="last_name">
+                </div>
+
+                <div class="mb-3">
+                    <label for="email" class="for-label">Email</label>
+                    <input type="email" class="form-control" id="email" formControlName="email">
+                </div>
+
+                <div class="mb-3">
+                    <label for="password" class="for-label">Password</label>
+                    <input type="password" class="form-control" id="password" formControlName="password">
+                </div>
+
+                <div class="mb-3">
+                    <label for="image" class="for-label">Profile Image</label>
+                    <input type="file" class="form-control" id="image" (change)="onFileSelected($event)">
+                </div>
+
+                <!-- Image Preview -->
+                <div class="mb-3" *ngIf="imagePreview">
+                    <label class="form-label">Preview</label><br>
+                    <img [src]="imagePreview" class="img-thumbnail" style="max-width: 200px; max-height: 200px;">
+                </div>
+
+                <button class="btn btn-primary" type="submit" [disabled]="userForm.invalid">Add User</button>
+            </form>
+        </div>
+    </div>
+</div>

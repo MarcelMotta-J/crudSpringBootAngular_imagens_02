@@ -1,0 +1,7 @@
+root@brainiac-Inspiron-3437:/home/brainiac/Documents/javaProjects/crud_springb_angular# apt-get install maven
+
+root@brainiac-Inspiron-3437:/home/brainiac/Documents/javaProjects/crud_springb_angular# mvn springboot:run
+The JAVA_HOME environment variable is not defined correctly,
+this environment variable is needed to run this program.
+root@brainiac-Inspiron-3437:/home/brainiac/Documents/javaProjects/crud_springb_angular# 
+

@@ -1,0 +1,34 @@
+Just add cors method to configure cors settings:
+
+.cors(Customizer.withDefaults())
+
+Here is all of my securityFilterChain:
+
+@Bean
+public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+    httpSecurity
+            .cors(Customizer.withDefaults())  // Add this line
+            .csrf(AbstractHttpConfigurer::disable)
+            .authorizeHttpRequests(req  -> req
+                    .requestMatchers("/auth/**")
+                    .permitAll()
+                    .anyRequest()
+                    .authenticated()
+
+            )
+            .sessionManagement(session  -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+    return httpSecurity.build();
+}
+
+And add CrossOrigin annotation to controllers:
+
+@CrossOrigin("*")
+@RestController
+@RequestMapping(path = "/category")
+@RequiredArgsConstructor
+public class CategoryController {
+
+    private final CategoryService categoryService;
+
+https://stackoverflow.com/questions/76682586/allow-cors-with-spring-security-6-1-1-with-authenticated-requests

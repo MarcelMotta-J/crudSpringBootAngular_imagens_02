@@ -1,0 +1,118 @@
+crud_springb_angular
+
+
+1- CRIAR PROJETO ANGULAR
+root@brainiac-Inspiron-3437:/home/brainiac/projects# ng new crud_springb_angular✔ Which stylesheet format would you like to use? CSS             [ 
+https://developer.mozilla.org/docs/Web/CSS                     ]
+✔ Do you want to enable Server-Side Rendering (SSR) and Static Site Generation 
+(SSG/Prerendering)? No
+✔ Do you want to create a 'zoneless' application without zone.js? No
+✔ Which AI tools do you want to configure with Angular best practices? 
+https://angular.dev/ai/develop-with-ai None
+CREATE crud_springb_angular/README.md (1481 bytes)
+CREATE crud_springb_angular/.editorconfig (314 bytes)
+CREATE crud_springb_angular/.gitignore (604 bytes)
+CREATE crud_springb_angular/angular.json (2438 bytes)
+CREATE crud_springb_angular/package.json (1143 bytes)
+CREATE crud_springb_angular/tsconfig.json (992 bytes)
+CREATE crud_springb_angular/tsconfig.app.json (429 bytes)
+CREATE crud_springb_angular/tsconfig.spec.json (408 bytes)
+CREATE crud_springb_angular/.vscode/extensions.json (130 bytes)
+CREATE crud_springb_angular/.vscode/launch.json (470 bytes)
+CREATE crud_springb_angular/.vscode/tasks.json (938 bytes)
+CREATE crud_springb_angular/src/main.ts (222 bytes)
+CREATE crud_springb_angular/src/index.html (304 bytes)
+CREATE crud_springb_angular/src/styles.css (80 bytes)
+CREATE crud_springb_angular/src/app/app.css (0 bytes)
+CREATE crud_springb_angular/src/app/app.spec.ts (678 bytes)
+CREATE crud_springb_angular/src/app/app.ts (302 bytes)
+CREATE crud_springb_angular/src/app/app.html (20122 bytes)
+CREATE crud_springb_angular/src/app/app.config.ts (400 bytes)
+CREATE crud_springb_angular/src/app/app.routes.ts (77 bytes)
+CREATE crud_springb_angular/public/favicon.ico (15086 bytes)
+✔ Packages installed successfully.
+hint: Using 'master' as the name for the initial branch. This default branch name
+hint: is subject to change. To configure the initial branch name to use in all
+hint: of your new repositories, which will suppress this warning, call:
+hint: 
+hint: 	git config --global init.defaultBranch <name>
+hint: 
+hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+hint: 'development'. The just-created branch can be renamed via this command:
+hint: 
+hint: 	git branch -m <name>
+    Successfully initialized git.
+root@brainiac-Inspiron-3437:/home/brainiac/projects# 
+
+2 - AUTORIZAÇÃO PARA EXECUTAR/ALTERAR NO IDE:
+root@brainiac-Inspiron-3437:/home/brainiac/projects# chmod -R 777 /home/brainiac/projects/crud_springb_angular
+
+root@brainiac-Inspiron-3437:/home/brainiac/projects# chmod -R 777 /home/brainiac/projects/crud_springb_angular/src
+
+root@brainiac-Inspiron-3437:/home/brainiac# chmod -R 777 /home/brainiac/projects/crud_springb_angular/src/app
+
+
+
+
+3 - CRIAR PASTA MODELS
+src/app/models
+
+
+4 - CRIAR PASTA SERVICES
+src/app/services
+
+5 - ACESSAR PASTA DO PROJETO ANGULAR (crud_springb_angular)
+root@brainiac-Inspiron-3437:/home/brainiac/projects# cd crud_springb_angular
+root@brainiac-Inspiron-3437:/home/brainiac/projects/crud_springb_angular# 
+
+6 - SUBIR NO SERVIDOR LOCAL O PROJETO
+root@brainiac-Inspiron-3437:/home/brainiac/projects/crud_springb_angular# npm start
+
+
+7 - CRIAR COMPONENTE DENTRO DA PASTA DO PROJETO ANGULAR
+root@brainiac-Inspiron-3437:/home/brainiac/projects/crud_springb_angular# ng g c user-create
+CREATE src/app/user-create/user-create.css (0 bytes)
+CREATE src/app/user-create/user-create.spec.ts (557 bytes)
+CREATE src/app/user-create/user-create.ts (205 bytes)
+CREATE src/app/user-create/user-create.html (26 bytes)
+root@brainiac-Inspiron-3437:/home/brainiac/projects/crud_springb_angular# 
+
+root@brainiac-Inspiron-3437:/home/brainiac/projects/crud_springb_angular# ng g c user-list
+CREATE src/app/user-list/user-list.css (0 bytes)
+CREATE src/app/user-list/user-list.spec.ts (543 bytes)
+CREATE src/app/user-list/user-list.ts (197 bytes)
+CREATE src/app/user-list/user-list.html (24 bytes)
+root@brainiac-Inspiron-3437:/home/brainiac/projects/crud_springb_angular#
+
+root@brainiac-Inspiron-3437:/home/brainiac/projects/crud_springb_angular# ng g c user-update
+CREATE src/app/user-update/user-update.css (0 bytes)
+CREATE src/app/user-update/user-update.spec.ts (557 bytes)
+CREATE src/app/user-update/user-update.ts (205 bytes)
+CREATE src/app/user-update/user-update.html (26 bytes)
+root@brainiac-Inspiron-3437:/home/brainiac/projects/crud_springb_angular# 
+
+
+8 - SUBIR SERVIDOR
+root@brainiac-Inspiron-3437:/home/brainiac/projects/crud_springb_angular# npm start
+
+> crud-springb-angular@0.0.0 start
+> ng serve
+
+Initial chunk files | Names         | Raw size
+main.js             | main          | 47.76 kB | 
+polyfills.js        | polyfills     | 95 bytes | 
+styles.css          | styles        | 95 bytes | 
+
+                    | Initial total | 47.95 kB
+
+Application bundle generation complete. [3.074 seconds] - 2025-10-29T22:27:27.831Z
+
+Watch mode enabled. Watching for file changes...
+NOTE: Raw file sizes do not reflect development server per-request transformations.
+  ➜  Local:   http://localhost:4200/
+  ➜  press h + enter to show help
+
+
+
+
+

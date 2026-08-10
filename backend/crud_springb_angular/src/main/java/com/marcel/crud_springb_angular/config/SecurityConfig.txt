@@ -1,0 +1,32 @@
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
+
+import org.springframework.security.core.userdetails.User;
+
+@Configuration
+public class SecurityConfig {
+     // https://www.javaguides.net/2024/05/securityfilterchain-in-spring-boot-3.html
+
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
+        http
+            .csrf -> csrf.disable() // Disable CSRF for simplicity in this example, enable in production
+            .authorizeHttpRequests(auth-> auth
+                .requestMatchers("/api/**").permitAll() // Allow access to /public/** without authentication                
+                .anyRequest().permitAll()// All other requests require authentication
+            )
+            .formLogin().disable() // Specify custom login page                
+            
+            .logout(logout -> logout
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/")
+                .permitAll() // Allow everyone to logout
+            );            
+
+        return http.build();
+
+        
+    }
+
