@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.marcel.crud_springb_angular.dto.UserDTO;
@@ -18,6 +19,9 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public List<UserDTO> getAllUsers() {
 
@@ -59,6 +63,8 @@ public class UserService {
     @Transactional
     public UserDTO saveUser(User user) throws IOException {
 
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
         User savedUser = userRepository.save(user);
 
         return new UserDTO(
@@ -81,9 +87,9 @@ public class UserService {
         existingUser.setLastname(user.getLastname());
         existingUser.setEmail(user.getEmail());
 
-        // Por enquanto continua assim.
-        // Na próxima etapa vamos trocar para BCrypt.
-        existingUser.setPassword(user.getPassword());
+        existingUser.setPassword(
+                passwordEncoder.encode(user.getPassword())
+        );
 
         existingUser.setProfileImage(user.getProfileImage());
         existingUser.setActive(user.getActive());

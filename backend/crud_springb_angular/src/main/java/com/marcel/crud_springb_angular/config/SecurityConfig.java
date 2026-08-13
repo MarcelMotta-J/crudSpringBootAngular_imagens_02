@@ -4,44 +4,100 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import java.nio.charset.StandardCharsets;
 
-import java.util.Arrays;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 
+import com.nimbusds.jose.jwk.source.ImmutableSecret;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.oauth2.jwt.JwtEncoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
+
+import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
+
+import org.springframework.security.config.http.SessionCreationPolicy;
 
 @Configuration
 public class SecurityConfig {
     // https://www.javaguides.net/2024/05/securityfilterchain-in-spring-boot-3.html
+
+    @Value("${jwt.secret}")
+    private String jwtSecret;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .cors(Customizer.withDefaults())
                 .csrf(csrf -> csrf.disable()) // Disable CSRF protection // Disable CSRF for simplicity in this example, enable in production
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/**").permitAll() // Allow access to /public/** without authentication
-                        .anyRequest().permitAll()// All other requests require authentication
+                .sessionManagement(session ->
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
-                .formLogin(f -> f.disable())// Specify custom login page
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/users/**").authenticated()
+                        .anyRequest().permitAll()
+                )
 
-                .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/")
-                        .permitAll() // Allow everyone to logout
-                );
+                .oauth2ResourceServer(oauth2 ->
+                        oauth2.jwt(Customizer.withDefaults())
+                )
+
+                .formLogin(form -> form.disable());// Specify custom login page
 
         return http.build();
     }
 
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(
+            AuthenticationConfiguration authenticationConfiguration) throws Exception {
+
+        return authenticationConfiguration.getAuthenticationManager();
+    }
+
+    @Bean
+    public JwtEncoder jwtEncoder() {
+
+        SecretKey secretKey = new SecretKeySpec(
+                jwtSecret.getBytes(StandardCharsets.UTF_8),
+                "HmacSHA256"
+        );
+
+        return new NimbusJwtEncoder(
+                new ImmutableSecret<>(secretKey)
+        );
+    }
+
+    @Bean
+    public JwtDecoder jwtDecoder() {
+
+        SecretKey secretKey = new SecretKeySpec(
+                jwtSecret.getBytes(StandardCharsets.UTF_8),
+                "HmacSHA256"
+        );
+
+        return NimbusJwtDecoder
+                .withSecretKey(secretKey)
+                .macAlgorithm(MacAlgorithm.HS256)
+                .build();
+    }
 
 }
 
