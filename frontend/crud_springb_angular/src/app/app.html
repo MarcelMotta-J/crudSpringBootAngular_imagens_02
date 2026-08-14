@@ -1,4 +1,13 @@
+@if (authService.isLoggedIn()) {
+<div>
+    <span style="color: red;">
+        Logged in as: {{ authService.getEmail() }}
+    </span>
 
-
+    <button type="button" (click)="logout()">
+        Logout
+    </button>
+</div>
+}
 
 <router-outlet />
