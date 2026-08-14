@@ -180,3 +180,16 @@ update_user() {
             jq
     fi
 }
+
+search_users() {
+    require_token || return 1
+
+    if [ -z "$1" ]; then
+        echo "Usage: search_users <query>"
+        return 1
+    fi
+
+    curl -sS "$API/api/users/search?query=$1" \
+        -H "Authorization: Bearer $TOKEN" |
+        jq
+}

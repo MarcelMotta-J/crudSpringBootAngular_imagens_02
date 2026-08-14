@@ -37,6 +37,26 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
+    public List<UserDTO> searchUsers(String query) {
+
+        return userRepository
+                .findByFirstnameContainingIgnoreCaseOrLastnameContainingIgnoreCaseOrEmailContainingIgnoreCase(
+                        query,
+                        query,
+                        query
+                )
+                .stream()
+                .map(user -> new UserDTO(
+                        user.getId(),
+                        user.getFirstname(),
+                        user.getLastname(),
+                        user.getEmail(),
+                        user.getActive(),
+                        user.getProfileImage()
+                ))
+                .collect(Collectors.toList());
+    }
+
     public UserDTO getUserById(Long id) {
 
         User user = userRepository.findById(id)
@@ -105,4 +125,6 @@ public class UserService {
                 updatedUser.getProfileImage()
         );
     }
+
+
 }

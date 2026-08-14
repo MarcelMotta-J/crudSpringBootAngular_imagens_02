@@ -82,6 +82,16 @@ public class UserController {
         return ResponseEntity.ok(users);
     }
 
+    // http://localhost:8081/api/users/search?query=cheetara"
+    @GetMapping("/search")
+    public ResponseEntity<List<UserDTO>> searchUsers(
+            @RequestParam String query) {
+
+        List<UserDTO> users = userService.searchUsers(query);
+
+        return ResponseEntity.ok(users);
+    }
+
     // http://localhost:8081/api/users/1
     @GetMapping("/{id}")
     public ResponseEntity<?> getUserById(@PathVariable Long id){
@@ -125,34 +135,7 @@ public class UserController {
 
     }
 
-    /*
-    @PostMapping
-    public ResponseEntity<UserDTO> createUser(
-        @RequestParam("first_name") String firstName,
-        @RequestParam("last_name") String lastName,
-        @RequestParam("email") String email,
-        @RequestParam("password") String password,
-        @RequestParam(value = "image", required = false) MultipartFile image) throws IOException {
 
-
-
-
-
-            User user = new User();
-            user.setFirstname(firstName);
-            user.setLastname(lastName);
-            user.setEmail(email);
-            user.setPassword(password);
-
-
-            UserDTO createdUser = userService.saveUser(user, image);
-
-            return ResponseEntity.ok(createdUser);
-
-    }
-    */
-
-    // 1h3min11s
     @PutMapping("/{id}")
     public ResponseEntity<UserDTO> updateUser(
         @PathVariable Long id,
