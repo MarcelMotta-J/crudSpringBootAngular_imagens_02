@@ -14,6 +14,9 @@ import com.marcel.crud_springb_angular.repository.UserRepository;
 
 import jakarta.transaction.Transactional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 @Service
 public class UserService {
 
@@ -37,15 +40,15 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public List<UserDTO> searchUsers(String query) {
+    public Page<UserDTO> searchUsers(String query, Pageable pageable) {
 
         return userRepository
                 .findByFirstnameContainingIgnoreCaseOrLastnameContainingIgnoreCaseOrEmailContainingIgnoreCase(
                         query,
                         query,
-                        query
+                        query,
+                        pageable
                 )
-                .stream()
                 .map(user -> new UserDTO(
                         user.getId(),
                         user.getFirstname(),
@@ -53,8 +56,7 @@ public class UserService {
                         user.getEmail(),
                         user.getActive(),
                         user.getProfileImage()
-                ))
-                .collect(Collectors.toList());
+                ));
     }
 
     public UserDTO getUserById(Long id) {
@@ -126,5 +128,17 @@ public class UserService {
         );
     }
 
+    public Page<UserDTO> getUsersPage(Pageable pageable) {
+
+        return userRepository.findAll(pageable)
+                .map(user -> new UserDTO(
+                        user.getId(),
+                        user.getFirstname(),
+                        user.getLastname(),
+                        user.getEmail(),
+                        user.getActive(),
+                        user.getProfileImage()
+                ));
+    }
 
 }

@@ -22,6 +22,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/api/users")
@@ -84,10 +89,18 @@ public class UserController {
 
     // http://localhost:8081/api/users/search?query=cheetara"
     @GetMapping("/search")
-    public ResponseEntity<List<UserDTO>> searchUsers(
-            @RequestParam String query) {
+    public ResponseEntity<Page<UserDTO>> searchUsers(
+            @RequestParam String query,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size) {
 
-        List<UserDTO> users = userService.searchUsers(query);
+        Pageable pageable = PageRequest.of(
+                page,
+                size,
+                Sort.by("id").ascending()
+        );
+
+        Page<UserDTO> users = userService.searchUsers(query, pageable);
 
         return ResponseEntity.ok(users);
     }
@@ -170,5 +183,20 @@ public class UserController {
 
     }
 
+    @GetMapping("/page")
+    public ResponseEntity<Page<UserDTO>> getUsersPage(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size) {
+
+        Pageable pageable = PageRequest.of(
+                page,
+                size,
+                Sort.by("id").ascending()
+        );
+
+        Page<UserDTO> users = userService.getUsersPage(pageable);
+
+        return ResponseEntity.ok(users);
+    }
 
 }
