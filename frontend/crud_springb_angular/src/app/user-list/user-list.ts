@@ -17,6 +17,8 @@ import {
   switchMap
 } from 'rxjs/operators';
 
+import { PageResponse } from '../models/page-response.model';
+
 
 @Component({
   selector: 'app-user-list',
@@ -39,6 +41,11 @@ export class UserList implements OnInit {
   filteredUsers: User[] = [];
   searchTerm = '';
 
+  currentPage = 0;
+  pageSize = 5;
+  totalPages = 0;
+  totalElements = 0;
+
   private searchSubject = new Subject<string>();
 
   constructor(private userService: UserService, private router: Router) { }
@@ -55,29 +62,55 @@ export class UserList implements OnInit {
         const query = term.trim();
 
         if (!query) {
-          return of(this.users);
+          return this.userService.getUsersPage(
+            this.currentPage,
+            this.pageSize
+          );
         }
 
-        return this.userService.searchUsers(query).pipe(
+        return this.userService.searchUsers(
+          query,
+          this.currentPage,
+          this.pageSize
+        ).pipe(
           catchError(error => {
             console.error('Error searching users:', error);
-            return of([]);
+
+            return of({
+              content: [],
+              totalElements: 0,
+              totalPages: 0,
+              size: this.pageSize,
+              number: 0,
+              first: true,
+              last: true,
+              numberOfElements: 0,
+              empty: true
+            } as PageResponse<User>);
           })
         );
       })
 
-    ).subscribe((data: User[]) => {
-      this.filteredUsers = data;
+    ).subscribe((data: PageResponse<User>) => {
+      this.filteredUsers = data.content;
+      this.currentPage = data.number;
+      this.totalPages = data.totalPages;
+      this.totalElements = data.totalElements;
     });
   }
 
   getUsers() {
-    this.userService.getUsers().subscribe((data: User[]) => {
-      this.users = data; // store the fetched data
-      this.filteredUsers = data;
+    this.userService
+      .getUsersPage(this.currentPage, this.pageSize)
+      .subscribe((data: PageResponse<User>) => {
 
-      console.log(this.users)
-    });
+        this.users = data.content;
+        this.filteredUsers = data.content;
+
+        this.currentPage = data.number;
+        this.totalPages = data.totalPages;
+        this.totalElements = data.totalElements;
+      });
   }
 
   deleteUser(id: any) {
@@ -121,7 +154,42 @@ export class UserList implements OnInit {
   */
 
   // search users backend
-  searchUsers(): void {
-    this.searchSubject.next(this.searchTerm);
+ searchUsers(): void {
+  this.currentPage = 0;
+  this.searchSubject.next(this.searchTerm);
+}
+
+  nextPage(): void {
+    if (this.currentPage < this.totalPages - 1) {
+      this.currentPage++;
+      this.loadCurrentPage();
+    }
   }
+
+  previousPage(): void {
+    if (this.currentPage > 0) {
+      this.currentPage--;
+      this.loadCurrentPage();
+    }
+  }
+
+  loadCurrentPage(): void {
+
+  const query = this.searchTerm.trim();
+
+  if (query) {
+    this.userService
+      .searchUsers(query, this.currentPage, this.pageSize)
+      .subscribe((data: PageResponse<User>) => {
+        this.filteredUsers = data.content;
+        this.currentPage = data.number;
+        this.totalPages = data.totalPages;
+        this.totalElements = data.totalElements;
+      });
+
+    return;
+  }
+
+  this.getUsers();
+}
 }

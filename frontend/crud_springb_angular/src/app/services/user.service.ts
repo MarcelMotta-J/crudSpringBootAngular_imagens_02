@@ -3,6 +3,8 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { User } from "../models/user.model";
 
+import { PageResponse } from "../models/page-response.model";
+
 @Injectable({
     providedIn: "root" //standalone service
 })
@@ -39,10 +41,25 @@ export class UserService {
         return this.http.delete(`${this.apiUrl}users/${id}`);
     }
 
-    // search users
-    searchUsers(query: string): Observable<User[]> {
-        return this.http.get<User[]>(
-            `${this.apiUrl}users/search?query=${encodeURIComponent(query)}`
+    // search users paginated
+    searchUsers(
+        query: string,
+        page: number,
+        size: number
+    ): Observable<PageResponse<User>> {
+
+        return this.http.get<PageResponse<User>>(
+            `${this.apiUrl}users/search` +
+            `?query=${encodeURIComponent(query)}` +
+            `&page=${page}` +
+            `&size=${size}`
+        );
+    }
+
+    // paginated list
+    getUsersPage(page: number, size: number): Observable<PageResponse<User>> {
+        return this.http.get<PageResponse<User>>(
+            `${this.apiUrl}users/page?page=${page}&size=${size}`
         );
     }
 }
