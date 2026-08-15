@@ -10,6 +10,12 @@ import { CommonModule } from '@angular/common';
 
 import { FormsModule } from '@angular/forms';
 
+import { Subject, of, catchError } from 'rxjs';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  switchMap
+} from 'rxjs/operators';
 
 
 @Component({
@@ -33,10 +39,36 @@ export class UserList implements OnInit {
   filteredUsers: User[] = [];
   searchTerm = '';
 
+  private searchSubject = new Subject<string>();
+
   constructor(private userService: UserService, private router: Router) { }
 
   ngOnInit(): void {
     this.getUsers();
+
+    this.searchSubject.pipe(
+      debounceTime(400),
+      distinctUntilChanged(),
+
+      switchMap(term => {
+
+        const query = term.trim();
+
+        if (!query) {
+          return of(this.users);
+        }
+
+        return this.userService.searchUsers(query).pipe(
+          catchError(error => {
+            console.error('Error searching users:', error);
+            return of([]);
+          })
+        );
+      })
+
+    ).subscribe((data: User[]) => {
+      this.filteredUsers = data;
+    });
   }
 
   getUsers() {
@@ -60,6 +92,8 @@ export class UserList implements OnInit {
 
   }
 
+  /*
+  // search users frontend
   searchUsers(): void {
 
     const term = this.searchTerm
@@ -84,6 +118,10 @@ export class UserList implements OnInit {
       );
     });
   }
+  */
 
-
+  // search users backend
+  searchUsers(): void {
+    this.searchSubject.next(this.searchTerm);
+  }
 }
