@@ -6,6 +6,7 @@ public record UserDTO(
         String firstname,
         String lastname,
         String email,
+        String cpf,
         Boolean active,
         String profileImage
 ) {

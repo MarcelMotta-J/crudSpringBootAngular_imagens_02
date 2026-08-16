@@ -34,6 +34,7 @@ public class UserService {
                         user.getFirstname(),
                         user.getLastname(),
                         user.getEmail(),
+                        user.getCpf(),
                         user.getActive(),
                         user.getProfileImage()
                 ))
@@ -54,6 +55,7 @@ public class UserService {
                         user.getFirstname(),
                         user.getLastname(),
                         user.getEmail(),
+                        user.getCpf(),
                         user.getActive(),
                         user.getProfileImage()
                 ));
@@ -69,6 +71,7 @@ public class UserService {
                 user.getFirstname(),
                 user.getLastname(),
                 user.getEmail(),
+                user.getCpf(),
                 user.getActive(),
                 user.getProfileImage()
         );
@@ -94,6 +97,7 @@ public class UserService {
                 savedUser.getFirstname(),
                 savedUser.getLastname(),
                 savedUser.getEmail(),
+                user.getCpf(),
                 savedUser.getActive(),
                 savedUser.getProfileImage()
         );
@@ -123,6 +127,7 @@ public class UserService {
                 updatedUser.getFirstname(),
                 updatedUser.getLastname(),
                 updatedUser.getEmail(),
+                user.getCpf(),
                 updatedUser.getActive(),
                 updatedUser.getProfileImage()
         );
@@ -136,6 +141,7 @@ public class UserService {
                         user.getFirstname(),
                         user.getLastname(),
                         user.getEmail(),
+                        user.getCpf(),
                         user.getActive(),
                         user.getProfileImage()
                 ));

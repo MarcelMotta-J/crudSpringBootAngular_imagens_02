@@ -4,6 +4,13 @@ import java.time.LocalDateTime;
 
 import jakarta.persistence.*;
 
+import lombok.Getter;
+import lombok.Setter;
+
+import com.marcel.crud_springb_angular.validation.ValidCPF;
+
+@Getter
+@Setter
 @Entity
 @Table(name = "users")
 public class User {
@@ -29,73 +36,9 @@ public class User {
 
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    // getters and setters
+    @ValidCPF
+    @Column(unique = true, length = 11)
+    private String cpf;
 
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    // is active
-    public Boolean getActive() {
-        return active;
-    }
-
-    public void setActive(Boolean active) {
-        this.active = active;
-    }
-
-    public String getProfileImage() {
-        return profileImage;
-    }
-
-    public void setProfileImage(String profileImage) {
-        this.profileImage = profileImage;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    
-    
 }

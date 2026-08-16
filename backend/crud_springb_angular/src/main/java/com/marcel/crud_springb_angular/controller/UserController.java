@@ -1,9 +1,11 @@
 package com.marcel.crud_springb_angular.controller;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,7 +29,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
-@CrossOrigin("*")
+import com.marcel.crud_springb_angular.validation.ValidCPF;
+import org.springframework.validation.annotation.Validated;
+
+
+@Validated
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -41,6 +47,8 @@ public class UserController {
             @RequestParam("first_name") String firstName,
             @RequestParam("last_name") String lastName,
             @RequestParam("email") String email,
+            @ValidCPF
+            @RequestParam("cpf") String cpf,
             @RequestParam("password") String password,
             @RequestParam(value = "image", required = false) MultipartFile image
     ) throws IOException {
@@ -49,6 +57,7 @@ public class UserController {
         user.setFirstname(firstName);
         user.setLastname(lastName);
         user.setEmail(email);
+        user.setCpf(cpf);
         user.setPassword(password);
         if (image != null && !image.isEmpty()) {
             File uploadDir = new File(UPLOAD_DIR);
@@ -155,14 +164,17 @@ public class UserController {
         @RequestParam("first_name") String firstName,
         @RequestParam("last_name") String lastName,
         @RequestParam("email") String email,
+        @ValidCPF
+        @RequestParam("cpf") String cpf,
         @RequestParam("password") String password,
         @RequestParam(value = "image", required = false) MultipartFile image) throws IOException {
 
-            User user = new User();
-            user.setFirstname(firstName);
-            user.setLastname(lastName);
-            user.setEmail(email);
-            user.setPassword(password);
+        User user = new User();
+        user.setFirstname(firstName);
+        user.setLastname(lastName);
+        user.setEmail(email);
+        user.setCpf(cpf);
+        user.setPassword(password);
 
         if (image != null && !image.isEmpty()) {
             File uploadDir = new File(UPLOAD_DIR);
