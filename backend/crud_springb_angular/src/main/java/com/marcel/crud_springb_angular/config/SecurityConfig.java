@@ -30,6 +30,12 @@ import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
 
 import org.springframework.security.config.http.SessionCreationPolicy;
 
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
+
 @Configuration
 public class SecurityConfig {
     // https://www.javaguides.net/2024/05/securityfilterchain-in-spring-boot-3.html
@@ -97,6 +103,44 @@ public class SecurityConfig {
                 .withSecretKey(secretKey)
                 .macAlgorithm(MacAlgorithm.HS256)
                 .build();
+    }
+
+    // bellow this method replaces to use @CrossOrigin("*") in each controller
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+
+        CorsConfiguration configuration = new CorsConfiguration();
+
+        configuration.setAllowedOrigins(
+                List.of("http://localhost:4200")
+        );
+
+        configuration.setAllowedMethods(
+                List.of(
+                        "GET",
+                        "POST",
+                        "PUT",
+                        "DELETE",
+                        "OPTIONS"
+                )
+        );
+
+        configuration.setAllowedHeaders(
+                List.of(
+                        "Authorization",
+                        "Content-Type"
+                )
+        );
+
+        UrlBasedCorsConfigurationSource source =
+                new UrlBasedCorsConfigurationSource();
+
+        source.registerCorsConfiguration(
+                "/**",
+                configuration
+        );
+
+        return source;
     }
 
 }
