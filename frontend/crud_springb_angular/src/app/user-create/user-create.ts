@@ -10,12 +10,12 @@ import { CommonModule } from '@angular/common';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    FormsModule  
-    
+    FormsModule
+
   ],
   templateUrl: './user-create.html',
   styleUrl: './user-create.css',
-  providers:[UserService]
+  providers: [UserService]
 })
 
 
@@ -23,6 +23,8 @@ import { CommonModule } from '@angular/common';
 export class UserCreate {
 
   userForm!: FormGroup;
+
+  errorMessage = '';
 
   constructor(
     private fb: FormBuilder,
@@ -33,6 +35,10 @@ export class UserCreate {
       first_name: ['', Validators.required],
       last_name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
+      cpf: ['', [
+        Validators.required,
+        Validators.pattern(/^\d{11}$/)
+      ]],
       password: ['', Validators.required],
       image: [null]
     });
@@ -47,22 +53,43 @@ export class UserCreate {
   }
 
   createUser(): void {
-      if(this.userForm.invalid){return;}
+    if (this.userForm.invalid) { return; }
 
-      const formData = new FormData();
-      formData.append('first_name', this.userForm.get('first_name')!.value);
-      formData.append('last_name', this.userForm.get('last_name')!.value);
-      formData.append('email', this.userForm.get('email')!.value);
-      formData.append('password', this.userForm.get('password')!.value);
+    const formData = new FormData();
+    formData.append('first_name', this.userForm.get('first_name')!.value);
+    formData.append('last_name', this.userForm.get('last_name')!.value);
+    formData.append('email', this.userForm.get('email')!.value);
+    formData.append('cpf', this.userForm.get('cpf')!.value);
+    formData.append('password', this.userForm.get('password')!.value);
 
-      const imageFile = this.userForm.get('image')!.value;
-      if(imageFile){
-        formData.append('image', imageFile, imageFile.name);
-      }
+    const imageFile = this.userForm.get('image')!.value;
+    if (imageFile) {
+      formData.append('image', imageFile, imageFile.name);
+    }
 
-      this.userService.createUser(formData).subscribe( ()=> {
+    this.errorMessage = '';
+
+    this.userService.createUser(formData).subscribe({
+
+      next: () => {
         this.router.navigate(['/users']);
-      });
-  }
+      },
 
+      error: (error) => {
+
+        if (error.status === 400) {
+          this.errorMessage = error.error?.message ?? 'Invalid CPF';
+        }
+        else if (error.status === 409) {
+          this.errorMessage =
+            error.error?.message ?? 'CPF or email already registered';
+        }
+        else {
+          this.errorMessage = 'An unexpected error occurred';
+        }
+
+        console.error('Error creating user:', error);
+      }
+    });
+  }
 }

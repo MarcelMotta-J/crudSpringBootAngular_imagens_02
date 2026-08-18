@@ -157,19 +157,20 @@ public class UserController {
 
     }
 
-
     @PutMapping("/{id}")
     public ResponseEntity<UserDTO> updateUser(
-        @PathVariable Long id,
-        @RequestParam("first_name") String firstName,
-        @RequestParam("last_name") String lastName,
-        @RequestParam("email") String email,
-        @ValidCPF
-        @RequestParam("cpf") String cpf,
-        @RequestParam("password") String password,
-        @RequestParam(value = "image", required = false) MultipartFile image) throws IOException {
+            @PathVariable Long id,
+            @RequestParam("first_name") String firstName,
+            @RequestParam("last_name") String lastName,
+            @RequestParam("email") String email,
+            @ValidCPF
+            @RequestParam("cpf") String cpf,
+            @RequestParam(value = "password", required = false) String password,
+            @RequestParam(value = "image", required = false) MultipartFile image
+    ) throws IOException {
 
         User user = new User();
+
         user.setFirstname(firstName);
         user.setLastname(lastName);
         user.setEmail(email);
@@ -177,22 +178,30 @@ public class UserController {
         user.setPassword(password);
 
         if (image != null && !image.isEmpty()) {
+
             File uploadDir = new File(UPLOAD_DIR);
+
             if (!uploadDir.exists()) {
-                uploadDir.mkdirs(); // 🔥 creates uploads folder
+                uploadDir.mkdirs();
             }
 
-            String fileName = System.currentTimeMillis() + "_" + image.getOriginalFilename();
+            String fileName =
+                    System.currentTimeMillis() + "_" + image.getOriginalFilename();
+
             Path filePath = Paths.get(UPLOAD_DIR, fileName);
 
-            Files.copy(image.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(
+                    image.getInputStream(),
+                    filePath,
+                    StandardCopyOption.REPLACE_EXISTING
+            );
+
             user.setProfileImage(fileName);
         }
 
-            UserDTO updateUser = userService.updateUser(id, user);
+        UserDTO updatedUser = userService.updateUser(id, user);
 
-            return ResponseEntity.ok(updateUser);
-
+        return ResponseEntity.ok(updatedUser);
     }
 
     @GetMapping("/page")

@@ -112,13 +112,23 @@ public class UserService {
         existingUser.setFirstname(user.getFirstname());
         existingUser.setLastname(user.getLastname());
         existingUser.setEmail(user.getEmail());
+        existingUser.setCpf(user.getCpf());
 
-        existingUser.setPassword(
-                passwordEncoder.encode(user.getPassword())
-        );
+        if (user.getPassword() != null &&
+                !user.getPassword().isBlank()) {
 
-        existingUser.setProfileImage(user.getProfileImage());
-        existingUser.setActive(user.getActive());
+            existingUser.setPassword(
+                    passwordEncoder.encode(user.getPassword())
+            );
+        }
+
+        if (user.getProfileImage() != null &&
+                !user.getProfileImage().isBlank()) {
+
+            existingUser.setProfileImage(
+                    user.getProfileImage()
+            );
+        }
 
         User updatedUser = userRepository.save(existingUser);
 
@@ -127,7 +137,7 @@ public class UserService {
                 updatedUser.getFirstname(),
                 updatedUser.getLastname(),
                 updatedUser.getEmail(),
-                user.getCpf(),
+                updatedUser.getCpf(),
                 updatedUser.getActive(),
                 updatedUser.getProfileImage()
         );

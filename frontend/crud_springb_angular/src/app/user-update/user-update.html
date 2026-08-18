@@ -23,6 +23,20 @@
                 </div>
 
                 <div class="mb-3">
+                    <label for="cpf" class="form-label">CPF</label>
+
+                    <input type="text" class="form-control" id="cpf" formControlName="cpf" maxlength="11"
+                        inputmode="numeric">
+
+                    <div class="text-danger mt-1" *ngIf="userForm.get('cpf')?.touched &&
+                        userForm.get('cpf')?.invalid">
+
+                        CPF must contain exactly 11 digits.
+
+                    </div>
+                </div>
+
+                <div class="mb-3">
                     <label for="password" class="for-label">Password</label>
                     <input type="password" class="form-control" id="password" formControlName="password">
                 </div>
@@ -37,6 +51,12 @@
                     <label class="form-label">Preview</label><br>
                     <img [src]="imagePreview" class="img-thumbnail" style="max-width: 200px; max-height: 200px;">
                 </div>
+
+                @if (errorMessage) {
+                <div class="alert alert-danger mt-3">
+                    {{ errorMessage }}
+                </div>
+                }
 
                 <button class="btn btn-primary" type="submit" [disabled]="userForm.invalid">Add User</button>
             </form>

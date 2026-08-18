@@ -3,7 +3,7 @@
 <div class="container mt-5">
     <div class="card shadow-sm">
         <div class="card-body">
-           <h2 class="card-title mb-4 text-warning">Create a New User</h2> 
+            <h2 class="card-title mb-4 text-warning">Create a New User</h2>
             <form [formGroup]="userForm" (ngSubmit)="createUser()" enctype="multipart/form-data">
 
                 <div class="mb-3">
@@ -22,6 +22,20 @@
                 </div>
 
                 <div class="mb-3">
+                    <label for="cpf" class="form-label">CPF</label>
+
+                    <input type="text" class="form-control" id="cpf" formControlName="cpf" maxlength="11"
+                        inputmode="numeric">
+
+                    <div class="text-danger mt-1" *ngIf="userForm.get('cpf')?.touched &&
+                        userForm.get('cpf')?.invalid">
+
+                        CPF must contain exactly 11 digits.
+
+                    </div>
+                </div>
+
+                <div class="mb-3">
                     <label for="password" class="for-label">Password</label>
                     <input type="password" class="form-control" id="password" formControlName="password">
                 </div>
@@ -30,6 +44,12 @@
                     <label for="image" class="for-label">Profile Image</label>
                     <input type="file" class="form-control" id="image" (change)="onFileSelected($event)">
                 </div>
+
+                @if (errorMessage) {
+                <div class="alert alert-danger mt-3">
+                    {{ errorMessage }}
+                </div>
+                }
 
                 <button class="btn btn-primary" type="submit" [disabled]="userForm.invalid">Add User</button>
             </form>

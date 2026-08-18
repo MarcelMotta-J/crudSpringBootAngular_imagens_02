@@ -23,6 +23,8 @@ export class UserUpdate implements OnInit {
   userForm!: FormGroup;
   userId!: number;
 
+  errorMessage = '';
+
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
@@ -33,7 +35,11 @@ export class UserUpdate implements OnInit {
       first_name: ['', Validators.required],
       last_name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
+      cpf: ['', [
+        Validators.required,
+        Validators.pattern(/^\d{11}$/)
+      ]],
+      password: [''],
       image: [null]
     });
   }
@@ -47,6 +53,7 @@ export class UserUpdate implements OnInit {
           first_name: user.firstname,
           last_name: user.lastname,
           email: user.email,
+          cpf: user.cpf,
           password: '',
           profileImage: user.profileImage
         });
@@ -83,15 +90,42 @@ export class UserUpdate implements OnInit {
     formData.append('first_name', this.userForm.get('first_name')!.value);
     formData.append('last_name', this.userForm.get('last_name')!.value);
     formData.append('email', this.userForm.get('email')!.value);
-    formData.append('password', this.userForm.get('password')!.value);
+    formData.append('cpf', this.userForm.get('cpf')!.value);
+
+    const password = this.userForm.get('password')!.value;
+
+    if (password?.trim()) {
+      formData.append('password', password);
+    }
 
     const imageFile = this.userForm.get('image')!.value;
     if (imageFile) {
       formData.append('image', imageFile, imageFile.name);
     }
 
-    this.userService.updateUser(this.userId, formData).subscribe(() => {
-      this.router.navigate(['/users']);
+    this.errorMessage = '';
+
+    this.userService.updateUser(this.userId, formData).subscribe({
+
+      next: () => {
+        this.router.navigate(['/users']);
+      },
+
+      error: (error) => {
+
+        if (error.status === 400) {
+          this.errorMessage = error.error?.message ?? 'Invalid CPF';
+        }
+        else if (error.status === 409) {
+          this.errorMessage =
+            error.error?.message ?? 'CPF or email already registered';
+        }
+        else {
+          this.errorMessage = 'An unexpected error occurred';
+        }
+
+        console.error('Error updating user:', error);
+      }
     });
   }
 }
