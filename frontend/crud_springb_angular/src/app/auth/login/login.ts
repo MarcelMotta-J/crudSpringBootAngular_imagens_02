@@ -45,4 +45,10 @@ export class Login {
       }
     });
   }
+
+  showPassword = false;
+
+  togglePassword(): void {
+    this.showPassword = !this.showPassword;
+  }
 }

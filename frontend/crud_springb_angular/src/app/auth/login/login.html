@@ -1,40 +1,63 @@
-<div class="login-container">
+<div class="login-page">
 
-  <h2>Login</h2>
+  <div class="login-card">
 
-  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <div class="login-header">
+      <div class="app-badge">CRUD</div>
 
-    <div>
-      <label for="email">Email</label>
+      <h2>Welcome Back</h2>
 
-      <input
-        id="email"
-        type="email"
-        formControlName="email"
-      >
+      <p>
+        Sign in to access User Management
+      </p>
     </div>
 
-    <div>
-      <label for="password">Password</label>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
 
-      <input
-        id="password"
-        type="password"
-        formControlName="password"
-      >
+      <div class="form-group">
+        <label for="email">Email</label>
+
+        <input id="email" type="email" class="form-control" formControlName="email" placeholder="Enter your email"
+          autocomplete="email">
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+
+        <div class="password-field">
+
+          <input id="password" [type]="showPassword ? 'text' : 'password'" class="form-control"
+            formControlName="password" placeholder="Enter your password" autocomplete="current-password">
+
+          <button type="button" class="password-toggle" (click)="togglePassword()"
+            [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'"
+            [title]="showPassword ? 'Hide password' : 'Show password'">
+            @if (showPassword) {
+            👁
+            } @else {
+            ⌣
+            }
+          </button>
+
+        </div>
+      </div>
+
+      @if (errorMessage) {
+      <div class="login-error">
+        {{ errorMessage }}
+      </div>
+      }
+
+      <button class="login-button" type="submit" [disabled]="loginForm.invalid">
+        Login
+      </button>
+
+    </form>
+
+    <div class="login-footer">
+      CRUD Users
     </div>
 
-    <button
-      type="submit"
-      [disabled]="loginForm.invalid"
-    >
-      Login
-    </button>
-
-  </form>
-
-  @if (errorMessage) {
-    <p>{{ errorMessage }}</p>
-  }
+  </div>
 
 </div>

@@ -1,13 +1,22 @@
 @if (authService.isLoggedIn()) {
-<div>
-    <span style="color: red;">
-        Logged in as: {{ authService.getEmail() }}
-    </span>
+<header class="app-header">
+    <div class="app-header__brand">
+        CRUD Users
+    </div>
 
-    <button type="button" (click)="logout()">
-        Logout
-    </button>
-</div>
+    <div class="app-header__actions">
+        <span class="logged-user">
+            Logged in as: {{ authService.getEmail() }}
+        </span>
+
+        <button
+            type="button"
+            class="logout-button"
+            (click)="logout()">
+            Logout
+        </button>
+    </div>
+</header>
 }
 
 <router-outlet />

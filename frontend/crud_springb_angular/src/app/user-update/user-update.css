@@ -1,0 +1,145 @@
+.update-page {
+    min-height: calc(100vh - 60px);
+    padding: 32px 20px;
+    background-color: #f4f6f8;
+}
+
+.update-card {
+    max-width: 650px;
+    margin: 0 auto;
+    padding: 28px 32px;
+
+    background-color: #ffffff;
+    border-radius: 10px;
+
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.form-header {
+    margin-bottom: 25px;
+}
+
+.form-header h2 {
+    margin: 0 0 4px;
+
+    font-size: 24px;
+    font-weight: 700;
+    color: #212529;
+}
+
+.form-header p {
+    margin: 0;
+
+    font-size: 14px;
+    color: #6c757d;
+}
+
+.form-label {
+    margin-bottom: 6px;
+
+    font-size: 14px;
+    font-weight: 600;
+    color: #343a40;
+}
+
+.form-control {
+    min-height: 42px;
+
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+}
+
+.form-control:focus {
+    border-color: #0d6efd;
+
+    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.12);
+}
+
+input[type="file"].form-control {
+    padding: 8px;
+}
+
+.form-text {
+    margin-top: 5px;
+
+    font-size: 12px;
+    color: #6c757d;
+}
+
+.validation-message {
+    font-size: 13px;
+}
+
+.image-preview {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    margin: 20px 0;
+    padding: 14px;
+
+    background: #f8f9fa;
+
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+}
+
+.image-preview img {
+    width: 90px;
+    height: 90px;
+
+    object-fit: cover;
+
+    border-radius: 50%;
+    border: 2px solid #dee2e6;
+}
+
+.preview-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #495057;
+}
+
+.alert {
+    font-size: 14px;
+    border-radius: 6px;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+
+    margin-top: 24px;
+}
+
+.form-actions .btn {
+    min-width: 110px;
+    padding: 9px 18px;
+
+    font-weight: 600;
+}
+
+@media (max-width: 576px) {
+
+    .update-page {
+        padding: 20px 12px;
+    }
+
+    .update-card {
+        padding: 22px 18px;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .form-actions .btn {
+        width: 100%;
+    }
+
+    .image-preview {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}

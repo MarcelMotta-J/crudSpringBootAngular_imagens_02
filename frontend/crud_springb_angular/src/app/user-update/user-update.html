@@ -1,65 +1,143 @@
-<p>user-update</p>
+<div class="update-page">
+    <div class="update-card">
 
+        <div class="form-header">
+            <h2>Edit User</h2>
+            <p>Update the user information below.</p>
+        </div>
 
-<div class="container mt-5">
-    <div class="card shadow-sm">
-        <div class="card-body text-success">
-            <h2 class="card-title mb-4 text-primary">Edit User</h2>
-            <form [formGroup]="userForm" (ngSubmit)="updateUser()" enctype="multipart/form-data">
+        <form
+            [formGroup]="userForm"
+            (ngSubmit)="updateUser()"
+            enctype="multipart/form-data">
 
-                <div class="mb-3">
-                    <label for="first_name" class="for-label">First Name</label>
-                    <input type="text" class="form-control" id="first_name" formControlName="first_name">
+            <div class="mb-3">
+                <label for="first_name" class="form-label">
+                    First Name
+                </label>
+
+                <input
+                    type="text"
+                    class="form-control"
+                    id="first_name"
+                    formControlName="first_name">
+            </div>
+
+            <div class="mb-3">
+                <label for="last_name" class="form-label">
+                    Last Name
+                </label>
+
+                <input
+                    type="text"
+                    class="form-control"
+                    id="last_name"
+                    formControlName="last_name">
+            </div>
+
+            <div class="mb-3">
+                <label for="email" class="form-label">
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    class="form-control"
+                    id="email"
+                    formControlName="email">
+            </div>
+
+            <div class="mb-3">
+                <label for="cpf" class="form-label">
+                    CPF
+                </label>
+
+                <input
+                    type="text"
+                    class="form-control"
+                    id="cpf"
+                    formControlName="cpf"
+                    maxlength="11"
+                    inputmode="numeric"
+                    placeholder="11 digits">
+
+                <div
+                    class="text-danger mt-1 validation-message"
+                    *ngIf="userForm.get('cpf')?.touched &&
+                           userForm.get('cpf')?.invalid">
+
+                    CPF must contain exactly 11 digits.
+
                 </div>
+            </div>
 
-                <div class="mb-3">
-                    <label for="last_name" class="for-label">Last Name</label>
-                    <input type="text" class="form-control" id="last_name" formControlName="last_name">
+            <div class="mb-3">
+                <label for="password" class="form-label">
+                    New Password
+                </label>
+
+                <input
+                    type="password"
+                    class="form-control"
+                    id="password"
+                    formControlName="password"
+                    placeholder="Leave blank to keep current password">
+
+                <div class="form-text">
+                    Leave blank if you do not want to change the password.
                 </div>
+            </div>
 
-                <div class="mb-3">
-                    <label for="email" class="for-label">Email</label>
-                    <input type="email" class="form-control" id="email" formControlName="email">
+            <div class="mb-3">
+                <label for="image" class="form-label">
+                    Profile Image
+                </label>
+
+                <input
+                    type="file"
+                    class="form-control"
+                    id="image"
+                    (change)="onFileSelected($event)">
+
+                <div class="form-text">
+                    Choose a new image only if you want to replace the current one.
                 </div>
+            </div>
 
-                <div class="mb-3">
-                    <label for="cpf" class="form-label">CPF</label>
+            @if (imagePreview) {
+                <div class="image-preview">
+                    <span class="preview-label">
+                        Current / selected image
+                    </span>
 
-                    <input type="text" class="form-control" id="cpf" formControlName="cpf" maxlength="11"
-                        inputmode="numeric">
-
-                    <div class="text-danger mt-1" *ngIf="userForm.get('cpf')?.touched &&
-                        userForm.get('cpf')?.invalid">
-
-                        CPF must contain exactly 11 digits.
-
-                    </div>
+                    <img
+                        [src]="imagePreview"
+                        alt="User profile preview">
                 </div>
+            }
 
-                <div class="mb-3">
-                    <label for="password" class="for-label">Password</label>
-                    <input type="password" class="form-control" id="password" formControlName="password">
-                </div>
-
-                <div class="mb-3">
-                    <label for="image" class="for-label">Profile Image</label>
-                    <input type="file" class="form-control" id="image" (change)="onFileSelected($event)">
-                </div>
-
-                <!-- Image Preview -->
-                <div class="mb-3" *ngIf="imagePreview">
-                    <label class="form-label">Preview</label><br>
-                    <img [src]="imagePreview" class="img-thumbnail" style="max-width: 200px; max-height: 200px;">
-                </div>
-
-                @if (errorMessage) {
-                <div class="alert alert-danger mt-3">
+            @if (errorMessage) {
+                <div class="alert alert-danger">
                     {{ errorMessage }}
                 </div>
-                }
+            }
 
-                <button class="btn btn-primary" type="submit" [disabled]="userForm.invalid">Add User</button>
-            </form>
-        </div>
+            <div class="form-actions">
+                <a
+                    routerLink="/users"
+                    class="btn btn-outline-secondary">
+                    Cancel
+                </a>
+
+                <button
+                    class="btn btn-primary"
+                    type="submit"
+                    [disabled]="userForm.invalid">
+                    Save Changes
+                </button>
+            </div>
+
+        </form>
+
     </div>
 </div>

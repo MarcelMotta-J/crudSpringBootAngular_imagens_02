@@ -1,0 +1,73 @@
+:host {
+    display: block;
+    min-height: 100vh;
+    background: #f5f7fa;
+}
+
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 16px 32px;
+
+    background: #212529;
+    color: white;
+
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.app-header__brand {
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.app-header__actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.logged-user {
+    background: #ffffff;
+    color: #0d6efd;
+
+    padding: 7px 12px;
+    border-radius: 6px;
+
+    font-size: 0.9rem;
+    font-weight: 600;
+
+    border: 1px solid #dee2e6;
+
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.logout-button {
+    border: 1px solid #dc3545;
+    background: transparent;
+    color: #ffffff;
+
+    padding: 7px 14px;
+    border-radius: 6px;
+
+    transition: 0.2s ease;
+}
+
+.logout-button:hover {
+    background: #dc3545;
+}
+
+@media (max-width: 700px) {
+    .app-header {
+        flex-direction: column;
+        gap: 12px;
+        padding: 16px;
+    }
+
+    .app-header__actions {
+        flex-direction: column;
+        gap: 8px;
+    }
+}

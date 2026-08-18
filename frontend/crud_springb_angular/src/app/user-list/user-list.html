@@ -1,71 +1,130 @@
-<p>user-list </p>
+<div class="users-page">
 
-<div class="mb-3">
-    <input type="text" class="form-control" placeholder="Search by first name, last name or email"
-        [(ngModel)]="searchTerm" (input)="searchUsers()" />
-</div>
+    <div class="users-card">
 
-<div class="container mt-4">
-    <div class="d-flex justify-content-between align-item-center mb-3">
-        <h2 class="mb-0">User List</h2>
-        <a routerLink="/users/create" class="btn btn-primary">Add User</a>
-    </div>
+        <div class="users-header">
+            <div>
+                <h2>User Management</h2>
+                <p>Manage registered users</p>
+            </div>
 
-    @if(filteredUsers.length > 0){
-    <table class="table table-bordered table-hover">
-        <thead class="table-light">
-            <tr>
-                <th>Id</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Email</th>
-                <th>CPF</th>
+            <a
+                routerLink="/users/create"
+                class="btn btn-primary">
+                + Add User
+            </a>
+        </div>
 
-                <th>Image</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @for (user of filteredUsers; track user.id){
-            <tr>
-                <td>{{ user.id }}</td>
-                <td>{{ user.firstname }}</td>
-                <td>{{ user.lastname }}</td>
-                <td>{{ user.email }}</td>
-                <td>{{ user.cpf }}</td>
+        <div class="search-box">
+            <input
+                type="text"
+                class="form-control"
+                placeholder="Search by first name, last name or email"
+                [(ngModel)]="searchTerm"
+                (input)="searchUsers()" />
+        </div>
 
-                <td>
+        @if(filteredUsers.length > 0){
 
-                    @if(user.profileImage){
-                    <img [src]="'http://localhost:8081/uploads/' + user.profileImage" width="100" height="100" />
+        <div class="table-responsive">
+            <table class="table users-table">
+
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>CPF</th>
+                        <th>Image</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @for (user of filteredUsers; track user.id){
+
+                    <tr>
+                        <td>{{ user.id }}</td>
+
+                        <td class="user-name">
+                            {{ user.firstname }}
+                        </td>
+
+                        <td>
+                            {{ user.lastname }}
+                        </td>
+
+                        <td>
+                            {{ user.email }}
+                        </td>
+
+                        <td>
+                            {{ user.cpf || '-' }}
+                        </td>
+
+                        <td>
+                            @if(user.profileImage){
+                            <img
+                                class="user-avatar"
+                                [src]="'http://localhost:8081/uploads/' + user.profileImage"
+                                alt="Profile image" />
+                            }
+                        </td>
+
+                        <td>
+                            <div class="action-buttons">
+                                <button
+                                    (click)="editUser(user.id)"
+                                    class="btn btn-outline-success btn-sm">
+                                    Edit
+                                </button>
+
+                                <button
+                                    (click)="deleteUser(user.id)"
+                                    class="btn btn-outline-danger btn-sm">
+                                    Delete
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
 
                     }
-                </td>
-                <td>
-                    <button (click)="editUser(user.id)" class="btn btn-success btn-sm me-2">Edit</button>
-                    <button (click)="deleteUser(user.id)" class="btn btn-danger btn-sm">Delete</button>
-                </td>
-            </tr>
-            }
-        </tbody>
+                </tbody>
 
-    </table>
-    <div class="d-flex justify-content-center align-items-center gap-3 mt-3">
+            </table>
+        </div>
 
-        <button class="btn btn-secondary" (click)="previousPage()" [disabled]="currentPage === 0">
-            Previous
-        </button>
+        <div class="pagination-area">
 
-        <span>
-            Page {{ currentPage + 1 }} of {{ totalPages }}
-        </span>
+            <button
+                class="btn btn-outline-secondary"
+                (click)="previousPage()"
+                [disabled]="currentPage === 0">
+                Previous
+            </button>
 
-        <button class="btn btn-secondary" (click)="nextPage()" [disabled]="currentPage >= totalPages - 1">
-            Next
-        </button>
+            <span class="page-info">
+                Page {{ currentPage + 1 }} of {{ totalPages }}
+            </span>
+
+            <button
+                class="btn btn-outline-secondary"
+                (click)="nextPage()"
+                [disabled]="currentPage >= totalPages - 1">
+                Next
+            </button>
+
+        </div>
+
+        } @else {
+
+        <div class="empty-state">
+            No users found.
+        </div>
+
+        }
 
     </div>
-    }
-
 
 </div>

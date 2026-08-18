@@ -1,0 +1,152 @@
+.users-page {
+    padding: 32px 20px;
+}
+
+.users-card {
+    max-width: 1250px;
+    margin: 0 auto;
+
+    background: white;
+
+    border-radius: 12px;
+
+    padding: 28px;
+
+    box-shadow:
+        0 4px 18px rgba(0, 0, 0, 0.08);
+}
+
+.users-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 24px;
+}
+
+.users-header h2 {
+    margin: 0;
+
+    font-size: 1.7rem;
+    font-weight: 700;
+
+    color: #212529;
+}
+
+.users-header p {
+    margin: 4px 0 0;
+
+    color: #6c757d;
+}
+
+.search-box {
+    margin-bottom: 24px;
+}
+
+.search-box input {
+    padding: 11px 14px;
+
+    border-radius: 8px;
+}
+
+.users-table {
+    vertical-align: middle;
+    margin-bottom: 0;
+}
+
+.users-table thead th {
+    background: #f1f3f5;
+
+    color: #495057;
+
+    font-size: 0.9rem;
+    font-weight: 600;
+
+    border-bottom: 2px solid #dee2e6;
+
+    white-space: nowrap;
+}
+
+.users-table tbody tr {
+    transition: background 0.15s ease;
+}
+
+.users-table tbody tr:hover {
+    background: #f8f9fa;
+}
+
+.user-name {
+    font-weight: 600;
+}
+
+.user-avatar {
+    width: 64px;
+    height: 64px;
+
+    object-fit: cover;
+
+    border-radius: 50%;
+
+    border: 2px solid #dee2e6;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.pagination-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 18px;
+
+    margin-top: 24px;
+}
+
+.page-info {
+    font-weight: 600;
+    color: #495057;
+}
+
+.empty-state {
+    text-align: center;
+
+    padding: 40px;
+
+    color: #6c757d;
+
+    border: 1px dashed #ced4da;
+    border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+
+    .users-page {
+        padding: 18px 10px;
+    }
+
+    .users-card {
+        padding: 18px;
+    }
+
+    .users-header {
+        flex-direction: column;
+        align-items: stretch;
+
+        gap: 16px;
+    }
+
+    .users-header .btn {
+        width: 100%;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+    }
+
+    .pagination-area {
+        flex-wrap: wrap;
+    }
+}

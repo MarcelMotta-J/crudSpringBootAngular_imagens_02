@@ -10,8 +10,8 @@ import { CommonModule } from '@angular/common';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    FormsModule
-
+    FormsModule,
+    RouterModule
   ],
   templateUrl: './user-create.html',
   styleUrl: './user-create.css',

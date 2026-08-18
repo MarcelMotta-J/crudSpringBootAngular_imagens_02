@@ -1,58 +1,69 @@
-<p>user-create works!</p>
+<div class="create-page">
+    <div class="create-card">
 
-<div class="container mt-5">
-    <div class="card shadow-sm">
-        <div class="card-body">
-            <h2 class="card-title mb-4 text-warning">Create a New User</h2>
-            <form [formGroup]="userForm" (ngSubmit)="createUser()" enctype="multipart/form-data">
-
-                <div class="mb-3">
-                    <label for="first_name" class="for-label">First Name</label>
-                    <input type="text" class="form-control" id="first_name" formControlName="first_name">
-                </div>
-
-                <div class="mb-3">
-                    <label for="last_name" class="for-label">Last Name</label>
-                    <input type="text" class="form-control" id="last_name" formControlName="last_name">
-                </div>
-
-                <div class="mb-3">
-                    <label for="email" class="for-label">Email</label>
-                    <input type="email" class="form-control" id="email" formControlName="email">
-                </div>
-
-                <div class="mb-3">
-                    <label for="cpf" class="form-label">CPF</label>
-
-                    <input type="text" class="form-control" id="cpf" formControlName="cpf" maxlength="11"
-                        inputmode="numeric">
-
-                    <div class="text-danger mt-1" *ngIf="userForm.get('cpf')?.touched &&
-                        userForm.get('cpf')?.invalid">
-
-                        CPF must contain exactly 11 digits.
-
-                    </div>
-                </div>
-
-                <div class="mb-3">
-                    <label for="password" class="for-label">Password</label>
-                    <input type="password" class="form-control" id="password" formControlName="password">
-                </div>
-
-                <div class="mb-3">
-                    <label for="image" class="for-label">Profile Image</label>
-                    <input type="file" class="form-control" id="image" (change)="onFileSelected($event)">
-                </div>
-
-                @if (errorMessage) {
-                <div class="alert alert-danger mt-3">
-                    {{ errorMessage }}
-                </div>
-                }
-
-                <button class="btn btn-primary" type="submit" [disabled]="userForm.invalid">Add User</button>
-            </form>
+        <div class="form-header">
+            <h2>Create a New User</h2>
+            <p>Fill in the information below to register a new user.</p>
         </div>
+
+        <form [formGroup]="userForm" (ngSubmit)="createUser()" enctype="multipart/form-data">
+
+            <div class="mb-3">
+                <label for="first_name" class="form-label">First Name</label>
+                <input type="text" class="form-control" id="first_name" formControlName="first_name">
+            </div>
+
+            <div class="mb-3">
+                <label for="last_name" class="form-label">Last Name</label>
+                <input type="text" class="form-control" id="last_name" formControlName="last_name">
+            </div>
+
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" formControlName="email">
+            </div>
+
+            <div class="mb-3">
+                <label for="cpf" class="form-label">CPF</label>
+
+                <input type="text" class="form-control" id="cpf" formControlName="cpf" maxlength="11"
+                    inputmode="numeric" placeholder="11 digits">
+
+                <div class="text-danger mt-1 validation-message" *ngIf="userForm.get('cpf')?.touched &&
+                           userForm.get('cpf')?.invalid">
+
+                    CPF must contain exactly 11 digits.
+
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" formControlName="password">
+            </div>
+
+            <div class="mb-4">
+                <label for="image" class="form-label">Profile Image</label>
+                <input type="file" class="form-control" id="image" (change)="onFileSelected($event)">
+            </div>
+
+            @if (errorMessage) {
+            <div class="alert alert-danger">
+                {{ errorMessage }}
+            </div>
+            }
+
+            <div class="form-actions">
+                <a routerLink="/users" class="btn btn-outline-secondary">
+                    Cancel
+                </a>
+
+                <button class="btn btn-primary" type="submit" [disabled]="userForm.invalid">
+                    Add User
+                </button>
+            </div>
+
+        </form>
+
     </div>
 </div>
